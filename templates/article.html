@@ -49,6 +49,27 @@
             </dl>
         {% endif %}
 
+        <h3 id="comments">Comments</h3>
+            {% for comment in COMMENTS %}
+                {% if comment.url == article.slug %}
+                    <div class="comment-style">
+                        <p class="comment-header">{{ comment.date }} | {{ comment.name }}:</p>
+                        <p>{{ comment.message }}</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        <div class="form-style">
+            <h3>Add comment</h3>
+            <form method="POST" action="https://comment-bot-0x7df.herokuapp.com/v2/entry/0x7df/0x7df.github.io/source/comments">
+                    <input name="options[redirect]" type="hidden" value="{{ SITEURL }}/{{ article.slug }}">
+                    <input name="fields[url]" type="hidden" value="{{ article.slug }}">
+                    <input name="fields[name]" type="text" placeholder="Name">
+                    <textarea name="fields[message]" placeholder="Comment"></textarea>
+                    <input name="submit" type="submit" value="Submit"/>
+            </form>
+        </div>
+
         {% include "disqus_script.html" %}
         
     </div>
